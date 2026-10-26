@@ -1,0 +1,463 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RAW — Brutalist Login</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      :root {
+        --yellow: #ffef00;
+        --paper: #f4f0e8;
+        --ink: #111111;
+        --white: #ffffff;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        min-height: 100vh;
+        background: var(--paper);
+        color: var(--ink);
+        font-family: "Space Grotesk", sans-serif;
+        padding: 24px;
+      }
+
+      button,
+      input {
+        font: inherit;
+      }
+
+      .page {
+        max-width: 1250px;
+        margin: auto;
+      }
+
+      .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 3px solid var(--ink);
+        padding-bottom: 22px;
+      }
+
+      .logo {
+        font-size: 1.5rem;
+        font-weight: 700;
+        background: var(--yellow);
+        border: 3px solid var(--ink);
+        padding: 8px 13px;
+        box-shadow: 5px 5px 0 var(--ink);
+      }
+
+      .mono {
+        font-family: "Space Mono", monospace;
+        font-size: 12px;
+        font-weight: 700;
+      }
+
+      .layout {
+        display: grid;
+        grid-template-columns: 1.1fr 0.9fr;
+        gap: 60px;
+        align-items: center;
+        min-height: calc(100vh - 125px);
+        padding: 60px 0;
+      }
+
+      .hero h1 {
+        font-size: clamp(3.5rem, 7vw, 7rem);
+        line-height: 0.92;
+        letter-spacing: -6px;
+        font-weight: 700;
+        margin: 25px 0;
+      }
+
+      .hero h1 span {
+        display: block;
+        width: fit-content;
+        background: var(--yellow);
+        border: 3px solid var(--ink);
+        padding: 4px 12px;
+        margin-top: 10px;
+        transform: rotate(-2deg);
+      }
+
+      .hero p {
+        max-width: 380px;
+        font-size: 1.1rem;
+        line-height: 1.7;
+        margin-top: 25px;
+      }
+
+      .stamp {
+        display: inline-block;
+        border: 2px solid var(--ink);
+        padding: 8px 12px;
+        transform: rotate(-3deg);
+        font-family: "Space Mono", monospace;
+        font-weight: 700;
+        font-size: 12px;
+      }
+
+      .card {
+        background: var(--white);
+        border: 3px solid var(--ink);
+        padding: clamp(24px, 4vw, 42px);
+        box-shadow: 12px 12px 0 var(--ink);
+        transition:
+          box-shadow 180ms ease,
+          transform 180ms ease;
+      }
+
+      .card:hover {
+        box-shadow: 16px 16px 0 var(--ink);
+        transform: translate(-2px, -2px);
+      }
+
+      .card h2 {
+        font-size: 2.2rem;
+        margin-bottom: 8px;
+        letter-spacing: -1px;
+      }
+
+      .subtitle {
+        color: #555;
+        margin-bottom: 32px;
+      }
+
+      .field {
+        margin-bottom: 22px;
+      }
+
+      .field label {
+        display: block;
+        font-family: "Space Mono", monospace;
+        font-size: 12px;
+        font-weight: 700;
+        margin-bottom: 9px;
+      }
+
+      .field input {
+        width: 100%;
+        border: 2px solid var(--ink);
+        border-radius: 0;
+        padding: 15px;
+        outline: none;
+        background: #fafafa;
+        transition:
+          background 150ms,
+          box-shadow 150ms;
+      }
+
+      .field input:focus {
+        background: #fffde0;
+        box-shadow: 4px 4px 0 var(--yellow);
+      }
+
+      .password-wrap {
+        display: flex;
+        gap: 8px;
+      }
+
+      .password-wrap input {
+        min-width: 0;
+        flex: 1;
+      }
+
+      .show-btn {
+        border: 2px solid var(--ink);
+        background: var(--yellow);
+        padding: 0 12px;
+        cursor: pointer;
+        font-family: "Space Mono", monospace;
+        font-size: 11px;
+        font-weight: 700;
+      }
+
+      .options {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+        font-size: 12px;
+        margin: 8px 0 25px;
+      }
+
+      .remember {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+      }
+
+      input[type="checkbox"] {
+        accent-color: var(--ink);
+        width: 16px;
+        height: 16px;
+      }
+
+      a {
+        color: var(--ink);
+        font-weight: 700;
+        text-decoration-thickness: 2px;
+        text-underline-offset: 3px;
+      }
+
+      .login-btn {
+        width: 100%;
+        background: var(--yellow);
+        border: 3px solid var(--ink);
+        padding: 17px;
+        font-size: 14px;
+        font-weight: 700;
+        cursor: pointer;
+        box-shadow: 5px 5px 0 var(--ink);
+        transition:
+          transform 120ms,
+          box-shadow 120ms;
+      }
+
+      .login-btn:hover {
+        background: var(--ink);
+        color: var(--yellow);
+      }
+
+      .login-btn:active {
+        transform: translate(4px, 4px);
+        box-shadow: 1px 1px 0 var(--ink);
+      }
+
+      .message {
+        display: none;
+        margin-top: 20px;
+        border: 2px solid var(--ink);
+        padding: 12px;
+        background: var(--yellow);
+        font-size: 13px;
+        line-height: 1.5;
+        overflow-wrap: anywhere;
+      }
+
+      .signup {
+        text-align: center;
+        margin-top: 28px;
+        font-size: 13px;
+      }
+
+      .footer {
+        display: flex;
+        justify-content: space-between;
+        border-top: 3px solid var(--ink);
+        padding-top: 20px;
+      }
+
+      @media (max-width: 800px) {
+        body {
+          padding: 18px;
+        }
+
+        .layout {
+          grid-template-columns: 1fr;
+          gap: 45px;
+          padding: 45px 0;
+        }
+
+        .hero h1 {
+          font-size: clamp(3.5rem, 12vw, 6rem);
+          letter-spacing: -3px;
+        }
+
+        .card {
+          box-shadow: 8px 8px 0 var(--ink);
+        }
+      }
+
+      @media (max-width: 420px) {
+        .mono {
+          font-size: 9px;
+        }
+
+        .logo {
+          font-size: 1.1rem;
+        }
+
+        .options {
+          align-items: flex-start;
+        }
+
+        .footer {
+          gap: 12px;
+          flex-wrap: wrap;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          transition: none !important;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <main class="page">
+      <nav class="navbar">
+        <div class="logo">RAW//LOGIN</div>
+        <div class="mono">EST. 2026 / VOL. 001</div>
+      </nav>
+
+      <section class="layout">
+        <div class="hero">
+          <div class="stamp">AUTHENTIC. UNFILTERED.</div>
+
+          <h1>
+            NO NOISE.
+            <span>JUST ACCESS.</span>
+          </h1>
+
+          <p>
+            Forget the ordinary. Get straight to what matters. Your space, your
+            rules.
+          </p>
+
+          <p class="mono">DESIGNED TO STAND OUT_</p>
+        </div>
+
+        <form class="card" id="loginForm">
+          <h2>SIGN IN_</h2>
+          <p class="subtitle">Welcome back. Enter your credentials.</p>
+
+          <div class="field">
+            <label for="email">EMAIL ADDRESS</label>
+            <input
+              type="email"
+              id="email"
+              placeholder="you@example.com"
+              autocomplete="email"
+              required
+            />
+          </div>
+
+          <div class="field">
+            <label for="password">PASSWORD</label>
+
+            <div class="password-wrap">
+              <input
+                type="password"
+                id="password"
+                placeholder="Enter your password"
+                autocomplete="current-password"
+                required
+                minlength="6"
+              />
+
+              <button
+                type="button"
+                class="show-btn"
+                id="togglePassword"
+                aria-controls="password"
+                aria-pressed="false"
+              >
+                SHOW
+              </button>
+            </div>
+          </div>
+
+          <div class="options">
+            <label class="remember">
+              <input type="checkbox" id="remember" checked />
+              Remember me
+            </label>
+
+            <a href="#" id="forgotLink">Forgot password?</a>
+          </div>
+
+          <button type="submit" class="login-btn">LET ME IN ↗</button>
+
+          <div
+            class="message"
+            id="message"
+            role="status"
+            aria-live="polite"
+          ></div>
+
+          <div class="signup">
+            NEW HERE? <a href="#" id="signupLink">Create an account</a>
+          </div>
+        </form>
+      </section>
+
+      <footer class="footer mono">
+        <span>BUILT DIFFERENT.</span>
+        <span>© RAW 2026</span>
+      </footer>
+    </main>
+
+    <script>
+      const form = document.getElementById("loginForm");
+      const email = document.getElementById("email");
+      const password = document.getElementById("password");
+      const toggle = document.getElementById("togglePassword");
+      const message = document.getElementById("message");
+
+      function showMessage(text) {
+        message.textContent = text;
+        message.style.display = "block";
+      }
+
+      toggle.addEventListener("click", () => {
+        const isHidden = password.type === "password";
+
+        password.type = isHidden ? "text" : "password";
+        toggle.textContent = isHidden ? "HIDE" : "SHOW";
+        toggle.setAttribute("aria-pressed", String(isHidden));
+      });
+
+      form.addEventListener("submit", (event) => {
+        event.preventDefault();
+
+        if (!form.checkValidity()) {
+          form.reportValidity();
+          return;
+        }
+
+        showMessage(
+          "Demo mode: your inputs are valid. Connect a backend " +
+            "to securely authenticate your account.",
+        );
+      });
+
+      document
+        .getElementById("forgotLink")
+        .addEventListener("click", (event) => {
+          event.preventDefault();
+          showMessage(
+            "Password recovery is not connected yet. " +
+              "Add a secure password-reset flow to enable it.",
+          );
+        });
+
+      document
+        .getElementById("signupLink")
+        .addEventListener("click", (event) => {
+          event.preventDefault();
+          showMessage(
+            "Registration is not connected yet. " +
+              "Create a registration page and connect your backend.",
+          );
+        });
+    </script>
+  </body>
+</html>
